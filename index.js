@@ -24,11 +24,12 @@ server.get('/forecast/hourly/:lat,:lon', function(req, res){
           longitude: response.data.longitude,
           hourly: response.data.hourly,
         };
-        res.json(resObj);
+        res.status(200).json(resObj);
       })
       .catch(function(error){
-        console.log(error);
-        res.send('bad!');
+        res.status(500).send({
+          msg: error
+        });
       });
 });
 
