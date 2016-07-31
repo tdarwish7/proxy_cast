@@ -14,6 +14,8 @@ var baseUrl = 'https://api.forecast.io/forecast/'
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(cors());
+server.use(logger);
+server.use(authorize);
 
 // test route
 server.get('/forecast/hourly/:lat,:lon', function(req, res){
@@ -64,7 +66,8 @@ server.get('/forecast/daily/:lat,:lon', function(req, res){
             tempMax: dailyData[i].temperatureMax,
             tempMin: dailyData[i].temperatureMin,
             humidity: dailyData[i].humidity,
-            precipProb: dailyData[i].precipProbability
+            precipProb: dailyData[i].precipProbability,
+            time: dailyData[i].time
           };
           dailyArr.push(o);
         }
@@ -83,7 +86,7 @@ server.get('/forecast/daily/:lat,:lon', function(req, res){
           msg: err
         });
       });
-
+});
 //listen
 
 server.listen(port, function(){
